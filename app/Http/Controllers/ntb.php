@@ -46,7 +46,7 @@ pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
 		$val2RSA = self::rsaDe($key,$valRSA); //calling RSA Decryption
 		$val1AES = self::aesDe($key,$valAES); //Calling AES Decryption
 
-		echo $valAES."|".$valRSA; //Cancandidanate Enctypted Values
+		echo $valAES."*-*-*-*|".$valRSA; //Cancandidanate Enctypted Values
 		echo $val2RSA; //Decrypted RSA
 		echo $val1AES; // Decrypted AES
 	}
