@@ -22,6 +22,8 @@ Route::controllers([
 
 
 
+Route::get('final', 'ntb@phpEn');
+
 
 Route::get('ntb', 'ntb@ntben');
 
