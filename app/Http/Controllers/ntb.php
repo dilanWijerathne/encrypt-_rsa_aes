@@ -11,96 +11,23 @@ use Crypt_AES;
 class ntb extends Controller {
 
 
-
-public function phpEn(){
-	$plaintext = 'Dilan';
-	$Randomkey = '3sc3RLrpd17'; // need to add random genarated key
-
-		$privateKey = "-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgG9ZDiP9Gg9OBC+m61/NXLMt8WkgCjnsxdZ/4Ppm8k0eK2EDFpeE
-DIhvFx8fBNSoBETY3p28HjztGHKh9BST9NbAz34qpXiyuxXKFydNCvQjnAQjswX9
-zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk8TK5Effb0nFsnJORAgMBAAEC
-gYBIchjRMYwTCR+QIXpjCqqVqf639zCwH21Y8jresLxVkJuIswmv6yp8Wksg5H2w
-HuEoKjItTogd++U8MEMuYFWbxFUL3K1pRB7A2P1wPkAH5goaCHqnaheljtZxJHGC
-OoYhzaSU+PfPJOsGfbjuR17efmwP7AVj0oJOM9+WWGnAAQJBAM0ooeJTKxxgUauj
-yT72Bnrz/FmygJ0MBEWItuStswCFK1HUllVTkO1I7lQtU38NR4Oe1mpfv40141HJ
-kT4Ca9ECQQCK8QSFdMDBDZmdKgSmJKUxbxD+zpIHhqBp9k+kpqOI6Opa/3LgTQ5X
-VkV7QZxtCUaAsCZ/JavlOAFi2v5kllvBAkEAizD2JEepCCeRQZJuB3mEDAddPr4M
-5IAypbqL27q9p6yyJ2LEXD/GJDdG+3WFIL4xtusdLi6oF3ZoNCU9lYSvAQJAD/Jt
-1Gt8HCxVb0Z9VhxqoWvgBX7sH9UB4GeW6Iz/xB0HmP4szzXI6ZlLTERRkeo4n1iY
-cot+WUa+UfxUqnLfgQJBAJHmftqz6ooyH9LluzCu7/Th8O/nnnD8V222QJQzcSFG
-XjHT7gEfyQVDz0tq6ryG9ASRtvHcMmkgCGkn8aiaB+I=
------END RSA PRIVATE KEY-----";
-
-
-		/* Public Key for RSA Encryption and Decryption - U can genarate these from online. */
-		$publicKey = "-----BEGIN PUBLIC KEY-----
-MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG9ZDiP9Gg9OBC+m61/NXLMt8Wkg
-CjnsxdZ/4Ppm8k0eK2EDFpeEDIhvFx8fBNSoBETY3p28HjztGHKh9BST9NbAz34q
-pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
-8TK5Effb0nFsnJORAgMBAAE=
------END PUBLIC KEY-----";
-		
-
-	// CBC has an IV and thus needs randomness every time a message is encrypted
-	$method = 'aes-256-cbc';
-
-	// Must be exact 32 chars (256 bit)
-	// You must store this secret random key in a safe place of your system.
-	$key = substr(hash('sha256', $Randomkey, true), 0, 32);
-	
-
-	// Most secure key
-	//$key = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
-
-	// IV must be exact 16 chars (128 bit)
-	$iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
-
-	// Most secure iv
-	// Never ever use iv=0 in real life. Better use this iv:
-	// $ivlen = openssl_cipher_iv_length($method);
-	// $iv = openssl_random_pseudo_bytes($ivlen);
-
-	// av3DYGLkwBsErphcyYp+imUW4QKs19hUnFyyYcXwURU=
-	$encrypted = base64_encode(openssl_encrypt($plaintext, $method, $key, OPENSSL_RAW_DATA, $iv));
-
-	// My secret message 1234
-	$decrypted = openssl_decrypt(base64_decode($encrypted), $method, $key, OPENSSL_RAW_DATA, $iv);
-
-	echo 'plaintext=' . $plaintext . "\n";
-	echo 'cipher=' . $method . "\n";
-	echo 'encrypted to: ' . $encrypted . "\n";
-	echo 'decrypted to: ' . $decrypted . "\n\n";
-
-	echo "</br>";
-
-
-	$test = "HjA748u8F/xHKUZL8aZOckgYEfsO9k9tuWmjf9zo23DrxB0vCTZkCtMkkB3sMyxmH/IQAzSz/J1QXvUvrmpuztaYYZrHrW7JqWLtTm3qAdakUY4zjumpk2MoECwm6QUI6x4CIdVs2mld6bCahXfjDipoBoHAKMzLs9NXk8IiMcM=";
-	$valRSA = self::rsaDe($test,$privateKey);
-		echo "</br>".$valRSA;
-}
-
-
-
-
-
-
 	public function obEn(){
 		/* Private Key for RSA Encryption and Decryption - U can genarate these from online.*/
 		$privateKey = "-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgG9ZDiP9Gg9OBC+m61/NXLMt8WkgCjnsxdZ/4Ppm8k0eK2EDFpeE
-DIhvFx8fBNSoBETY3p28HjztGHKh9BST9NbAz34qpXiyuxXKFydNCvQjnAQjswX9
-zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk8TK5Effb0nFsnJORAgMBAAEC
-gYBIchjRMYwTCR+QIXpjCqqVqf639zCwH21Y8jresLxVkJuIswmv6yp8Wksg5H2w
-HuEoKjItTogd++U8MEMuYFWbxFUL3K1pRB7A2P1wPkAH5goaCHqnaheljtZxJHGC
-OoYhzaSU+PfPJOsGfbjuR17efmwP7AVj0oJOM9+WWGnAAQJBAM0ooeJTKxxgUauj
-yT72Bnrz/FmygJ0MBEWItuStswCFK1HUllVTkO1I7lQtU38NR4Oe1mpfv40141HJ
-kT4Ca9ECQQCK8QSFdMDBDZmdKgSmJKUxbxD+zpIHhqBp9k+kpqOI6Opa/3LgTQ5X
-VkV7QZxtCUaAsCZ/JavlOAFi2v5kllvBAkEAizD2JEepCCeRQZJuB3mEDAddPr4M
-5IAypbqL27q9p6yyJ2LEXD/GJDdG+3WFIL4xtusdLi6oF3ZoNCU9lYSvAQJAD/Jt
-1Gt8HCxVb0Z9VhxqoWvgBX7sH9UB4GeW6Iz/xB0HmP4szzXI6ZlLTERRkeo4n1iY
-cot+WUa+UfxUqnLfgQJBAJHmftqz6ooyH9LluzCu7/Th8O/nnnD8V222QJQzcSFG
-XjHT7gEfyQVDz0tq6ryG9ASRtvHcMmkgCGkn8aiaB+I=
+MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGAb1kOI/0aD04EL6br
+X81csy3xaSAKOezF1n/g+mbyTR4rYQMWl4QMiG8XHx8E1KgERNjenbwePO0YcqH0
+FJP01sDPfiqleLK7FcoXJ00K9COcBCOzBf3OlSmpGYaPQ00O9pMGxXjyOc8a/wef
+//dPXIeXBeTxMrkR99vScWyck5ECAwEAAQKBgEhyGNExjBMJH5AhemMKqpWp/rf3
+MLAfbVjyOt6wvFWQm4izCa/rKnxaSyDkfbAe4SgqMi1OiB375TwwQy5gVZvEVQvc
+rWlEHsDY/XA+QAfmChoIeqdqF6WO1nEkcYI6hiHNpJT4988k6wZ9uO5HXt5+bA/s
+BWPSgk4z35ZYacABAkEAzSih4lMrHGBRq6PJPvYGevP8WbKAnQwERYi25K2zAIUr
+UdSWVVOQ7UjuVC1Tfw1Hg57Wal+/jTXjUcmRPgJr0QJBAIrxBIV0wMENmZ0qBKYk
+pTFvEP7OkgeGoGn2T6Smo4jo6lr/cuBNDldWRXtBnG0JRoCwJn8lq+U4AWLa/mSW
+W8ECQQCLMPYkR6kIJ5FBkm4HeYQMB10+vgzkgDKluovbur2nrLInYsRcP8YkN0b7
+dYUgvjG26x0uLqgXdmg0JT2VhK8BAkAP8m3Ua3wcLFVvRn1WHGqha+AFfuwf1QHg
+Z5bojP/EHQeY/izPNcjpmUtMRFGR6jifWJhyi35ZRr5R/FSqct+BAkEAkeZ+2rPq
+ijIf0uW7MK7v9OHw7+eecPxXbbZAlDNxIUZeMdPuAR/JBUPPS2rqvIb0BJG28dwy
+aSAIaSfxqJoH4g==
 -----END RSA PRIVATE KEY-----";
 
 		/* Public Key for RSA Encryption and Decryption - U can genarate these from online. */
@@ -112,17 +39,19 @@ pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
 -----END PUBLIC KEY-----";
 		
 		/* Key for AES Encryption - 256bit - U can either use 128 to 256 bits */
-		$key ="3sc3RLrpd17";// "6BCD0D46F786491688FAC17C5F27A181";  // or get any random key
+		//$key = "bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3";  // or get any random key
+		$key = "Q+vDrDhVtIWkzC35on/v07dslaTEEsgPJOP2n4ZmYJUSrFVDsZKJKyaudvIHc9zA3OL342wR6McEwPWI76abZuXsxOdhffkuDdP2cVeQifCUpqaQAxCwHo7XMQ6hsmGjDiu8ky7j//KMRmf9qPwPfAyoyB14aCFX9vy2r3bRkkw=";
+		//$plaintext = "Dilan"; //The STRING u want to ENCRYPT
+		//$valAES = self::aesEn($key,$plaintext); //Calling AES Encryption
+		//$valRSA = self::ntben($key,$publicKey); //Calling RSA eNCRYPTION
+		$val2RSA = self::rsaDe($key,$privateKey); //calling RSA Decryption
+		//$val1AES = self::aesDe($key,$valAES); //Calling AES Decryption
 
-		$plaintext = "Dilan"; //The STRING u want to ENCRYPT
-		$valAES = self::aesEn($key,$plaintext); //Calling AES Encryption
-		$valRSA = self::ntben($key,$publicKey); //Calling RSA eNCRYPTION
-		$val2RSA = self::rsaDe($key,$valRSA); //calling RSA Decryption
-		$val1AES = self::aesDe($key,$valAES); //Calling AES Decryption
+		echo $val2RSA;
 
-	//	echo $valAES."*-*-*-*|".$valRSA; //Cancandidanate Enctypted Values
-	//	echo $val2RSA; //Decrypted RSA
-		echo base64_encode($valRSA); // Decrypted AES
+		//echo $valAES."*-*-*-*|".$valRSA; //Cancandidanate Enctypted Values
+		//echo $val2RSA; //Decrypted RSA
+		//echo $val1AES; // Decrypted AES
 	}
 
 
@@ -132,12 +61,8 @@ pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
 		$aes = new \Crypt_AES();
 		//Setting the AES KEY 
 		$aes->setKey($key); 
-		$aes->setBlockLength(0x80);
-		$aes->setIV("6BCD0D46F786491688FAC17C5F27A181");
-
 		//Setting the AES KEY as 256bit STRING
 		$aes->setKeyLength(256);
-		
 		
 		//AES Encrypting by above given STRING and AES KEY 
 		$val1 = $aes->encrypt($plaintext);
@@ -146,16 +71,16 @@ pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
 
 
 	/* (02) RSA Encryption  */
-	public function ntben($key,$publicKey){
+	public function ntben($publicKey,$key){
 
 		$rsa = new \Crypt_RSA();
 		//Setting RSA Encryption MODE
-		$rsa->setEncryptionMode("CRYPT_RSA_ENCRYPTION_PKCS1"); 
+		$rsa->setEncryptionMode("CRYPT_RSA_ENCRYPTION_PKCS1");
 		//Setting the KEY that u want to encrypt
-	    $rsa->loadKey($publicKey);
+	    $rsa->loadKey($key);
 	    //Encrypting the key using RSA PUBLIC KEY
-	    $val2 = $rsa->encrypt($key);
-	    return base64_encode($val2);
+	    $val2 = $rsa->encrypt($publicKey);
+	    return $val2;
 
 	}
 
@@ -181,6 +106,7 @@ pXiyuxXKFydNCvQjnAQjswX9zpUpqRmGj0NNDvaTBsV48jnPGv8Hn//3T1yHlwXk
 		return $val3;
 
 	}
+
 
 	
 
